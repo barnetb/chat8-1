@@ -7,8 +7,8 @@ const router = express.Router()
 
 router.post('/signup', (req, res) => {
   User.findOne({ username: req.body.username }, async (err, userExists) => {
-    if (err) return res.status(500).send(err)
-    if (userExists) return res.status(400).send({err: 'username already exists'})
+    if (err) return res.status(500).send({error: err})
+    if (userExists) return res.status(400).send({error: 'username already exists'})
 
     const user = await User.signUp(req.body.username, req.body.password)
     res.status(201).send(user.sanitize())

@@ -33,7 +33,7 @@ class loginForm extends React.Component {
           <input id='nickname' type='text' placeholder='Enter nickname...' value={this.state.nick} onChange={this.handleLoginChange.bind(this)} />
         </div>
         <div>
-          <input id='password' type='text' placeholder='Enter password...' value={this.state.password} onChange={this.handlePasswordChange.bind(this)} />
+          <input id='password' type='password' placeholder='Enter password...' value={this.state.password} onChange={this.handlePasswordChange.bind(this)} />
         </div>
         <div>
           <button type='submit'>Login</button>

@@ -41,7 +41,7 @@ class App extends React.Component {
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     })
     .then (res => res.json()) 
-    .then (data => console.log(data))
+    .then (data => this.setState({ errorMessage: data.error, registered: data.error ? false: true }))
     .catch (err => console.log(err))
     // return response.json(); // parses JSON response into native JavaScript objects
   }
@@ -71,7 +71,7 @@ class App extends React.Component {
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     })
     .then (res => res.json()) 
-    .then (data =>   this.setState({ errorMessage: data.error })) //this is where our custom error msg prints
+    .then (data =>   this.setState({ errorMessage: data.error, loggedIn: data.error ? false: true })) //this is where our custom error msg prints
     // this.setState({ errorMessage: data.error })
     .catch (err => console.log(err))//when exception is thrown it will end up here - so error message ain't here
   }
@@ -102,7 +102,7 @@ class App extends React.Component {
   render () {
     return (
       <Router>
-        <button onClick={this.signUp}>Sign Up or Whatever</button>
+        {/* <button onClick={this.signUp}>Sign Up or Whatever</button> */}
         <div>
           <div className="logo">
             <img src={logo} alt="logo"/>
@@ -116,7 +116,7 @@ class App extends React.Component {
               {this.state.loggedIn 
                 ?
               <li>
-                <Link to="/logout" onClick={this.logMeOut.bind(this)}><button>Log {this.state.nick} Out</button></Link>}
+                <Link to="/logout" onClick={this.logMeOut.bind(this)}><button>Log {this.state.nick} Out</button></Link>
               </li> 
                 : ''}
               <li>
@@ -135,7 +135,9 @@ class App extends React.Component {
           <Route path="/signup">
           {this.state.loggedIn 
             ? <Redirect to="/" />  
-            : <Signup register={this.register.bind(this)}/>}
+            : this.state.registered 
+              ? <Redirect to="/login" /> 
+              : <Signup register={this.register.bind(this)}/>}
           </Route>
 
           <Route path="/logout" >
